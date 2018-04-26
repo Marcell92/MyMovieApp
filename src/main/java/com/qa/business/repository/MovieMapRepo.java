@@ -14,10 +14,22 @@ import com.qa.util.JSONUtil;
 @Alternative
 public class MovieMapRepo implements IMovieRepository {
 
-	@Inject
-	private JSONUtil util;
+	// changed from inject to just private JSONUtil util = new JSONUtil and added startmoviemap() at the
+	//beginning of createmovie and also added id++ at the end of the method
+
+	
+	private JSONUtil util = new JSONUtil();
 
 	private Map<Long, Movie> MovieMap;
+	
+	public Map<Long, Movie> getMovieMap() {
+		return MovieMap;
+	}
+
+	public void setMovieMap(Map<Long, Movie> movieMap) {
+		MovieMap = movieMap;
+	}
+
 	private Long id = 1L;
 
 	public MovieMapRepo() {
@@ -45,10 +57,12 @@ public class MovieMapRepo implements IMovieRepository {
 
 	@Override
 	public String createAMovie(String movie) {
-		id++;
+		startMovieMap();
 		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
 		MovieMap.put(id, newMovie);
+		id++;
 		return util.getJSONforObject(newMovie);
+		
 	}
 
 	@Override
