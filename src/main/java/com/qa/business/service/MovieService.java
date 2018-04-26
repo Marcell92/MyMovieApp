@@ -22,4 +22,10 @@ public class MovieService implements IMovieService {
 		return repo.getAMovie(id);
 	}
 
+	@Override
+	public String createAMovie(String movie) {
+		
+		return repo.createAMovie(movie);
+	}
+
 }
