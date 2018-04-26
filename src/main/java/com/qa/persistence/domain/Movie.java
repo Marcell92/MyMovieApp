@@ -6,8 +6,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Movie {
-	
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -15,17 +14,16 @@ public class Movie {
 	private String genre;
 	private String rating;
 
-	
 	public Movie() {
 	}
-	
+
 	public Movie(String movieTitle, String genre, String rating) {
-		
+
 		this.movieTitle = movieTitle;
 		this.genre = genre;
 		this.rating = rating;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -53,5 +51,5 @@ public class Movie {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	
+
 }
