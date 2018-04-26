@@ -1,4 +1,5 @@
 package com.qa.business.repository;
+
 import java.util.Collection;
 
 import javax.inject.Inject;
@@ -15,13 +16,12 @@ import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 public class MovieDBRepository implements IMovieRepository {
-	
-	
+
 	private static final Logger LOGGER = Logger.getLogger(MovieDBRepository.class);
-	
+
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
-	
+
 	@Inject
 	private JSONUtil util;
 
@@ -29,8 +29,8 @@ public class MovieDBRepository implements IMovieRepository {
 	public String getallmovies() {
 		LOGGER.info("MovieDBRepository getAllMovies");
 		Query query = manager.createQuery("SELECT m FROM Movie m");
-		Collection <Movie> movies = (Collection<Movie>) query.getResultList();
-		
+		Collection<Movie> movies = (Collection<Movie>) query.getResultList();
+
 		return util.getJSONforObject(movies);
 	}
 
@@ -38,20 +38,20 @@ public class MovieDBRepository implements IMovieRepository {
 	public String getAMovie(Long id) {
 
 		Movie aMovie = findMovie(id);
-		
+
 		if (aMovie != null) {
-			
+
 			return util.getJSONforObject(aMovie);
 		}
-		
+
 		else {
-			
+
 			return "{\"message\":\"movie not found\"}";
 		}
 	}
 
 	private Movie findMovie(Long id) {
-		return manager.find(Movie.class,  id);
+		return manager.find(Movie.class, id);
 	}
 
 	@Override
@@ -61,21 +61,21 @@ public class MovieDBRepository implements IMovieRepository {
 		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
 		manager.persist(newMovie);
 		return "{\"message\":\"movie added\"}";
-			
-		}
+
+	}
 
 	@Override
 	@Transactional(REQUIRED)
 	public String updateAMovie(String movie) {
-		Movie newMovie = util.getObjectForJSON(movie, Movie.class);		
+		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
 		if (movie != null) {
-			
+
 			manager.merge(newMovie);
 			return "{\"message\":\"movie updated\"}";
 		}
-		
+
 		else {
-			
+
 			return "{\"message\":\"movie can't be updated\"}";
 		}
 	}
@@ -83,11 +83,10 @@ public class MovieDBRepository implements IMovieRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String deleteAMovie(Long id) {
-		
+
 		Movie movieTodelete = findMovie(id);
 		manager.remove(movieTodelete);
 		return "{\"message\":\"movie was deleted\"}";
 	}
-	
-	
+
 }
