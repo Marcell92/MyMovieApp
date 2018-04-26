@@ -5,11 +5,14 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.apache.log4j.Logger;
 
 import com.qa.persistence.domain.Movie;
 import com.qa.util.JSONUtil;
+import static javax.transaction.Transactional.TxType.REQUIRED;
+import static javax.transaction.Transactional.TxType.SUPPORTS;
 
 public class MovieDBRepository implements IMovieRepository {
 	
@@ -51,4 +54,15 @@ public class MovieDBRepository implements IMovieRepository {
 		return manager.find(Movie.class,  id);
 	}
 
+	@Override
+	@Transactional(REQUIRED)
+	public String createAMovie(String movie) {
+		LOGGER.info("MovieDBRepository createAMovie");
+		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
+		manager.persist(newMovie);
+		return "{\"message\":\"movie added\"}";
+			
+		}
+	
+	
 }
