@@ -12,8 +12,14 @@ public class MovieService implements IMovieService {
 
 	@Override
 	public String getAllMovies() {
-		// TODO Auto-generated method stub
+
 		return repo.getallmovies();
+	}
+
+	@Override
+	public String getAMovie(Long id) {
+
+		return repo.getAMovie(id);
 	}
 
 }
