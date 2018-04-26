@@ -22,12 +22,13 @@ public class MovieDBRepository implements IMovieRepository {
 	@PersistenceContext(unitName = "primary")
 	private EntityManager manager;
 
+
 	@Inject
 	private JSONUtil util;
 
+
 	@Override
 	public String getallmovies() {
-		LOGGER.info("MovieDBRepository getAllMovies");
 		Query query = manager.createQuery("SELECT m FROM Movie m");
 		Collection<Movie> movies = (Collection<Movie>) query.getResultList();
 
@@ -57,10 +58,16 @@ public class MovieDBRepository implements IMovieRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String createAMovie(String movie) {
-		LOGGER.info("MovieDBRepository createAMovie");
 		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
+		
+		if(findMovie(newMovie.getId()) != null) {
+			
+			return "{\"message\":\"movie already exists\"}";
+			
+		}
 		manager.persist(newMovie);
-		return "{\"message\":\"movie added\"}";
+		
+			return "{\"message\":\"movie added\"}";
 
 	}
 
@@ -87,6 +94,22 @@ public class MovieDBRepository implements IMovieRepository {
 		Movie movieTodelete = findMovie(id);
 		manager.remove(movieTodelete);
 		return "{\"message\":\"movie was deleted\"}";
+	}
+	
+	public EntityManager getManager() {
+		return manager;
+	}
+
+	public void setManager(EntityManager manager) {
+		this.manager = manager;
+	}
+	
+	public JSONUtil getUtil() {
+		return util;
+	}
+
+	public void setUtil(JSONUtil util) {
+		this.util = util;
 	}
 
 }
