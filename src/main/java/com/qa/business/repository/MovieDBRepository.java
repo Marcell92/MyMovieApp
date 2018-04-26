@@ -60,7 +60,7 @@ public class MovieDBRepository implements IMovieRepository {
 		LOGGER.info("MovieDBRepository createAMovie");
 		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
 		manager.persist(newMovie);
-		return "{\"message\":\"movie already exists\"}";
+		return "{\"message\":\"movie added\"}";
 			
 		}
 	
