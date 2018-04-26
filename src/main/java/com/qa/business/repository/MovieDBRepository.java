@@ -63,6 +63,31 @@ public class MovieDBRepository implements IMovieRepository {
 		return "{\"message\":\"movie added\"}";
 			
 		}
+
+	@Override
+	@Transactional(REQUIRED)
+	public String updateAMovie(String movie) {
+		Movie newMovie = util.getObjectForJSON(movie, Movie.class);		
+		if (movie != null) {
+			
+			manager.merge(newMovie);
+			return "{\"message\":\"movie updated\"}";
+		}
+		
+		else {
+			
+			return "{\"message\":\"movie can't be updated\"}";
+		}
+	}
+
+	@Override
+	@Transactional(REQUIRED)
+	public String deleteAMovie(Long id) {
+		
+		Movie movieTodelete = findMovie(id);
+		manager.remove(movieTodelete);
+		return "{\"message\":\"movie was deleted\"}";
+	}
 	
 	
 }
