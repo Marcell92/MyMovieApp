@@ -28,11 +28,14 @@ public class MapRepoTest {
 		repo.getAMovie(1L);
 		assertEquals(repo.getAMovie(1L), movie);
 		
-		repo.updateAMovie(movie);
-		assertEquals(repo.updateAMovie(movie),"{\"message\":\"movie updated\"}");
+		repo.updateAMovie(IronMan);
+		assertEquals(repo.updateAMovie(IronMan), "{\"message\": \"the movie has been updated\"}");
 		
 		repo.deleteAMovie(1L);
 		assertEquals(repo.getMovieMap().size(), 0);
+		
+		repo.deleteAMovie(2L);
+		assertEquals(repo.deleteAMovie(2L), "{\"message\":\"movie can't be deleted\"}");
 		
 	}
 	

@@ -41,7 +41,8 @@ public class EntityManagerRepoTest {
 
 	private static final String mockList = "[{\"movieTitle\":\"Life of Nabeel\",\"genre\":\"horror\",\"rating\":\"18\"}]";
 	private static final String mockObject = "{\"movieTitle\":\"Life of Nabeel\",\"genre\":\"horror\",\"rating\":\"18\"}";
-
+	private static final Movie mockMovie = new Movie ("Avengers", "action", "15");
+	
 	@Before
 	public void pre() {
 
@@ -69,17 +70,17 @@ public class EntityManagerRepoTest {
 	
 	@Test
 	public void testupdateAMovie() {
-		String expectedAnswer = movierepo.updateAMovie(mockObject);
-		String actual = "{\"message\":\"movie updated\"}";
+		String expectedAnswer = movierepo.updateAMovie(mockMovie);
+		String actual = "{\"message\": \"the movie has been updated\"}";
 		assertEquals(expectedAnswer, actual);
 	}
 	
-//	@Test
-//	public void testupdateAMovieFail() {
-//		String expectedAnswer = movierepo.updateAMovie(null);
-//		String actual = "{\"message\":\"movie can't be updated\"}";
-//		assertEquals(expectedAnswer, actual);
-//	}
+	@Test
+	public void testupdateAMovieFail() {
+		String expectedAnswer = movierepo.updateAMovie(null);
+		String actual = "{\"message\": \"the movie couldn't be updated\"}";
+		assertEquals(expectedAnswer, actual);
+	}
 	
 	@Test
 	public void testdeleteAMovie() {

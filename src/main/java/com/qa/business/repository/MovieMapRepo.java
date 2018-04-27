@@ -57,30 +57,42 @@ public class MovieMapRepo implements IMovieRepository {
 
 	@Override
 	public String createAMovie(String movie) {
-		startMovieMap();
+		// startMovieMap();
 		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
-		MovieMap.put(id, newMovie);
-		id++;
-		return util.getJSONforObject(newMovie);
 
+		if (getAMovie(newMovie.getId()) != null) {
+
+			MovieMap.put(id, newMovie);
+
+			id++;
+			return util.getJSONforObject(newMovie);
+		} else {
+			return "{\"message\": \"the movie already exists\"}";
+		}
 	}
 
 	@Override
-	public String updateAMovie(String movie) {
-
-		Movie MovieToUpdate = util.getObjectForJSON(movie, Movie.class);
-
-		if (getAMovie(MovieToUpdate.getId()) != null) {
-
-			MovieMap.put(MovieToUpdate.getId(), MovieToUpdate);
-
-			return "{\"message\":\"movie updated\"}";
+//	public String updateAMovie(Movie movie) {
+//
+//		if (movie != null) {
+//
+//			MovieMap.put(movie.getId(), movie);
+//
+//			return "{\"message\": \"the movie has been updated\"}";
+//		}
+//		return "{\"message\": \"the movie could not be updated\"}";
+//
+//	}
+	
+	public String updateAMovie (Movie movie) {
+		
+		if(movie != null) {
+			MovieMap.replace(movie.getId(), movie);
+			
+			return "{\"message\": \"the movie has been updated\"}";
 		}
-
-		else {
-
-			return "{\"message\":\"movie can't be updated\"}";
-		}
+		
+		return "{\"message\": \"the movie could not be updated\"}";
 	}
 
 	// public String updatingfields(Movie oldmovie, Movie newMovie) {
@@ -107,8 +119,15 @@ public class MovieMapRepo implements IMovieRepository {
 	@Override
 	public String deleteAMovie(Long id) {
 
-		MovieMap.remove(id);
-		return "{\"message\":\"movie deleted\"}";
+		Movie newMovie = util.getObjectForJSON(getAMovie(id), Movie.class);
+
+		if (newMovie != null) {
+
+			MovieMap.remove(id);
+			return "{\"message\":\"movie deleted\"}";
+		}
+		
+		return "{\"message\":\"movie can't be deleted\"}";
 	}
 
 }

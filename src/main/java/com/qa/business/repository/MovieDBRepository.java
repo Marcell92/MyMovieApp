@@ -2,6 +2,7 @@ package com.qa.business.repository;
 
 import java.util.Collection;
 
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,6 +16,9 @@ import com.qa.util.JSONUtil;
 import static javax.transaction.Transactional.TxType.REQUIRED;
 import static javax.transaction.Transactional.TxType.SUPPORTS;
 
+
+@Transactional(SUPPORTS)
+@Default
 public class MovieDBRepository implements IMovieRepository {
 
 	private static final Logger LOGGER = Logger.getLogger(MovieDBRepository.class);
@@ -73,21 +77,15 @@ public class MovieDBRepository implements IMovieRepository {
 
 	@Override
 	@Transactional(REQUIRED)
-	public String updateAMovie(String movie) {
-		Movie movieA = util.getObjectForJSON(movie, Movie.class);
-		Movie movieB = findMovie(movieA.getId());
+	public String updateAMovie(Movie movie) {
 		
-		if (movieB != null) {
+		if (movie != null) {
 			
-			movieB = movieA;
-			manager.merge(movieB);
-			return "{\"message\":\"movie updated\"}";
+			manager.merge(movie);
+			
+			return "{\"message\": \"the movie has been updated\"}";
 		}
-
-		else {
-
-			return "{\"message\":\"movie can't be updated\"}";
-		}
+		return "{\"message\": \"the movie couldn't be updated\"}";
 	}
 
 	@Override

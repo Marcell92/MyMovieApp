@@ -1,5 +1,7 @@
 package com.qa.business.repository;
 
+import com.qa.persistence.domain.Movie;
+
 public interface IMovieRepository {
 
 	String getallmovies();
@@ -8,7 +10,7 @@ public interface IMovieRepository {
 
 	String createAMovie(String movie);
 
-	String updateAMovie(String movie);
+	String updateAMovie(Movie movie);
 
 	String deleteAMovie(Long id);
 }
