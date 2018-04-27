@@ -3,12 +3,17 @@ package com.qa.business.service;
 import javax.inject.Inject;
 
 import com.qa.business.repository.IMovieRepository;
+import com.qa.persistence.domain.Movie;
+import com.qa.util.JSONUtil;
 
 public class MovieService implements IMovieService {
 	
 	
-	@Inject
+	
 	private IMovieRepository repo;
+	
+	@Inject
+	private JSONUtil util;
 
 	@Override
 	public String getAllMovies() {
@@ -17,15 +22,17 @@ public class MovieService implements IMovieService {
 	}
 
 	@Override
-	public String getAMovie(Long id) {
+	public Movie getAMovie(Long id) {
 
 		return repo.getAMovie(id);
 	}
 
 	@Override
-	public String createAMovie(String movie) {
+	public Movie createAMovie(String movie) {
 		
-		return repo.createAMovie(movie);
+		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
+		
+		return repo.createAMovie(newMovie);
 	}
 
 	@Override

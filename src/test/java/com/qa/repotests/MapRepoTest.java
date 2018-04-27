@@ -21,7 +21,6 @@ public class MapRepoTest {
 		String movie = util.getJSONforObject(IronMan);
 		repo.createAMovie(movie);
 		assertEquals(repo.getMovieMap().size(), 1);
-		
 	}
 		
 

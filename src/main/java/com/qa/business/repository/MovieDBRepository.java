@@ -36,18 +36,18 @@ public class MovieDBRepository implements IMovieRepository {
 	}
 
 	@Override
-	public String getAMovie(Long id) {
+	public Movie getAMovie(Long id) {
 
 		Movie aMovie = findMovie(id);
 
 		if (aMovie != null) {
 
-			return util.getJSONforObject(aMovie);
+			return aMovie;
 		}
 
 		else {
 
-			return "{\"message\":\"movie not found\"}";
+			return null;
 		}
 	}
 
@@ -57,17 +57,17 @@ public class MovieDBRepository implements IMovieRepository {
 
 	@Override
 	@Transactional(REQUIRED)
-	public String createAMovie(String movie) {
-		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
+	public Movie createAMovie(Movie movie) {
+//		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
 		
-		if(findMovie(newMovie.getId()) != null) {
+		if(findMovie(movie.getId()) != null) {
 			
-			return "{\"message\":\"movie already exists\"}";
+			return null;
 			
 		}
-		manager.persist(newMovie);
+		manager.persist(movie);
 		
-			return "{\"message\":\"movie added\"}";
+			return getAMovie(movie.getId());
 
 	}
 

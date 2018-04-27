@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import com.qa.business.service.IMovieService;
+import com.qa.persistence.domain.Movie;
 
 @Path("/movie")
 public class MovieEndpoint {
@@ -31,7 +32,7 @@ public class MovieEndpoint {
 	@GET
 	@Path ("/json/{id}")
 	@Produces ({"application/json"})
-	public String getAMovie(@PathParam("id") Long id) {
+	public Movie getAMovie(@PathParam("id") Long id) {
 		
 		return service.getAMovie(id);
 	}
@@ -39,7 +40,7 @@ public class MovieEndpoint {
 	@POST
 	@Path ("/json")
 	@Produces ({"application/json"})
-	public String createAMovie (String movie) {
+	public Movie createAMovie (String movie) {
 		
 		return service.createAMovie(movie);
 	}

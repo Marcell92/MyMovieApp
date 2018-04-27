@@ -1,12 +1,14 @@
 package com.qa.business.repository;
 
+import com.qa.persistence.domain.Movie;
+
 public interface IMovieRepository {
 
 	String getallmovies();
 
-	String getAMovie(Long id);
+	Movie getAMovie(Long id);
 
-	String createAMovie(String movie);
+	Movie createAMovie(Movie movie);
 
 	String updateAMovie(String movie);
 
