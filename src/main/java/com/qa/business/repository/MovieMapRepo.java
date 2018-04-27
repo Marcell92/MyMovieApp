@@ -14,14 +14,14 @@ import com.qa.util.JSONUtil;
 @Alternative
 public class MovieMapRepo implements IMovieRepository {
 
-	// changed from inject to just private JSONUtil util = new JSONUtil and added startmoviemap() at the
-	//beginning of createmovie and also added id++ at the end of the method
+	// changed from inject to just private JSONUtil util = new JSONUtil and added
+	// startmoviemap() at the
+	// beginning of createmovie and also added id++ at the end of the method
 
-	
 	private JSONUtil util = new JSONUtil();
 
 	private Map<Long, Movie> MovieMap;
-	
+
 	public Map<Long, Movie> getMovieMap() {
 		return MovieMap;
 	}
@@ -62,17 +62,18 @@ public class MovieMapRepo implements IMovieRepository {
 		MovieMap.put(id, newMovie);
 		id++;
 		return util.getJSONforObject(newMovie);
-		
+
 	}
 
 	@Override
 	public String updateAMovie(String movie) {
 
-		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
+		Movie MovieToUpdate = util.getObjectForJSON(movie, Movie.class);
 
-		if (movie != null) {
+		if (getAMovie(MovieToUpdate.getId()) != null) {
 
-			MovieMap.put(id, newMovie);
+			MovieMap.put(MovieToUpdate.getId(), MovieToUpdate);
+
 			return "{\"message\":\"movie updated\"}";
 		}
 
@@ -81,6 +82,27 @@ public class MovieMapRepo implements IMovieRepository {
 			return "{\"message\":\"movie can't be updated\"}";
 		}
 	}
+
+	// public String updatingfields(Movie oldmovie, Movie newMovie) {
+	//
+	// if(oldmovie.getMovieTitle() != null) {
+	//
+	// oldmovie.setMovieTitle(newMovie.getMovieTitle());
+	// }
+	//
+	// if(oldmovie.getGenre() != null) {
+	//
+	// oldmovie.setGenre(newMovie.getGenre());
+	// }
+	//
+	// if(oldmovie.getRating() != null) {
+	//
+	// oldmovie.setRating(newMovie.getRating());
+	// }
+	//
+	// return util.getJSONforObject(oldmovie);
+	//
+	// }
 
 	@Override
 	public String deleteAMovie(Long id) {

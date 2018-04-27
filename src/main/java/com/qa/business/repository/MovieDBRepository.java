@@ -74,10 +74,13 @@ public class MovieDBRepository implements IMovieRepository {
 	@Override
 	@Transactional(REQUIRED)
 	public String updateAMovie(String movie) {
-		Movie newMovie = util.getObjectForJSON(movie, Movie.class);
-		if (movie != null) {
-
-			manager.merge(newMovie);
+		Movie movieA = util.getObjectForJSON(movie, Movie.class);
+		Movie movieB = findMovie(movieA.getId());
+		
+		if (movieB != null) {
+			
+			movieB = movieA;
+			manager.merge(movieB);
 			return "{\"message\":\"movie updated\"}";
 		}
 
